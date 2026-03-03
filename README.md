@@ -70,7 +70,9 @@ supporting the Agent Skills format.
     │   │   ├── accessibility-patterns.md
     │   │   ├── swiftui-examples.md
     │   │   ├── testing-strategies.md
-    │   │   └── wcag-guidelines.md
+    │   │   ├── wcag-guidelines.md
+    │   │   └── agents/
+    │   │       └── openai.yaml
     │   └── coredata-swiftdata-migration-advisor/
     │       ├── SKILL.md
     │       ├── concept-mapping.md
