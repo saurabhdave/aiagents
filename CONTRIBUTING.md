@@ -19,7 +19,7 @@ are easy to review and maintain.
 
 Each skill must include a `SKILL.md` file with metadata (name, description,
 version, author, etc.) and clear usage instructions. See
-`skills/ios-accessibility-advisor/SKILL.md` as a reference.
+`skills/apple-accessibility-advisor/SKILL.md` as a reference.
 
 ## Code & Documentation Standards
 
@@ -35,7 +35,8 @@ version, author, etc.) and clear usage instructions. See
 - Update the CI workflow (in `.github/workflows/`) to run any new build steps or
   linting commands.
 - Before submitting a pull request, run the existing CI tasks locally if possible
-  (`swift package generate-xcodeproj && xcodebuild` or `act` for GitHub Actions).
+  (`npm install && npm run lint`, plus `swift build` / `swift test` for any added
+  Swift packages or examples).
 
 ## Submitting Changes
 

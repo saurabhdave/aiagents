@@ -1,8 +1,8 @@
 {
   "name": "aiagents",
-  "version": "1.0.0",
+  "version": "1.2.4",
   "description": "AI-driven skills for Apple platform engineering",
-  "main": "index.js",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/saurabhdave/aiagents.git"
@@ -22,7 +22,11 @@
     "ai"
   ],
   "scripts": {
-    "lint": "markdownlint '**/*.md'"
+    "lint": "markdownlint '**/*.md'",
+    "lint:md": "markdownlint '**/*.md'"
   },
-  "author": "Saurabh Dave"
+  "author": "Saurabh Dave",
+  "devDependencies": {
+    "markdownlint-cli": "^0.39.0"
+  }
 }

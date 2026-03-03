@@ -38,8 +38,8 @@ checks, and integration into your development workflow.
 
 ```swift
 func testProfileRowAccessibility() {
-    let row = ProfileRow(user: testUser)
-    let label = row.accessibilityLabel()
+    let formatter = ProfileAccessibilityFormatter()
+    let label = formatter.label(name: "John Doe", role: "Designer")
     XCTAssertEqual(label, "John Doe, Designer")
 }
 ```

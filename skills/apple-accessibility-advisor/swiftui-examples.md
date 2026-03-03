@@ -77,7 +77,9 @@ Text("Profile")
 UIKit interoperability example in SwiftUI:
 
 ```swift
-UILabel().font = UIFont.preferredFont(forTextStyle: .body)
+let label = UILabel()
+label.adjustsFontForContentSizeCategory = true
+label.font = .preferredFont(forTextStyle: .body)
 ```
 
 ---

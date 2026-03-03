@@ -228,20 +228,23 @@ func toggleExpanded() {
 ### Safe Animations
 
 ```swift
-extension Animation {
-    static var accessibleSpring: Animation {
-        @Environment(\.accessibilityReduceMotion) var reduceMotion
-        return reduceMotion ? .none : .spring()
-    }
-}
-
-// View modifier
-struct ReducedMotionModifier: ViewModifier {
+// View modifier that disables animation when Reduce Motion is enabled.
+struct ReducedMotionModifier<Value: Equatable>: ViewModifier {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    let value: Value
     let animation: Animation
 
     func body(content: Content) -> some View {
-        content.animation(reduceMotion ? nil : animation, value: UUID())
+        content.animation(reduceMotion ? nil : animation, value: value)
+    }
+}
+
+extension View {
+    func accessibleAnimation<Value: Equatable>(
+        _ animation: Animation = .spring(),
+        value: Value
+    ) -> some View {
+        modifier(ReducedMotionModifier(value: value, animation: animation))
     }
 }
 ```
@@ -260,8 +263,15 @@ struct ReducedMotionModifier: ViewModifier {
 ```swift
 @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
-var backgroundMaterial: some ShapeStyle {
-    reduceTransparency ? Color.systemBackground : Material.regular
+var backgroundMaterial: AnyShapeStyle {
+    if reduceTransparency {
+        #if os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
+        return AnyShapeStyle(Color(uiColor: .systemBackground))
+        #elseif os(macOS)
+        return AnyShapeStyle(Color(nsColor: .windowBackgroundColor))
+        #endif
+    }
+    return AnyShapeStyle(.regularMaterial)
 }
 ```
 
@@ -350,15 +360,18 @@ Image("decorative-line")
 
 ```swift
 import XCTest
-@testable import YourApp
+import UIKit
 
 final class AccessibilityTests: XCTestCase {
 
-    func testButtonHasLabel() {
-        let button = MyButton()
-        let view = button.body
+    func testUIKitControlAccessibilityMetadata() {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.accessibilityLabel = "Add item"
+        button.accessibilityHint = "Creates a new item"
 
-        XCTAssertNotNil(view.accessibilityLabel)
+        XCTAssertEqual(button.accessibilityLabel, "Add item")
+        XCTAssertEqual(button.accessibilityHint, "Creates a new item")
     }
 }
 ```
@@ -385,7 +398,8 @@ func testVoiceOverNavigation() {
 enum A11y {
     static let addButton = String(localized: "accessibility.add_button",
                                    defaultValue: "Add new item")
-    static let deleteHint = String(localized: "accessibility.delete_hint",\n                                    defaultValue: "Double tap to delete")
+    static let deleteHint = String(localized: "accessibility.delete_hint",
+                                   defaultValue: "Double tap to delete")
 
     static func itemCount(_ count: Int) -> String {
         String(localized: "accessibility.item_count \(count)",

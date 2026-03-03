@@ -17,6 +17,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install lint dependencies
+        run: npm install
+
+      - name: Lint markdown
+        run: npm run lint
+
       - name: Extract tag version (if tag build)
         id: tag
         run: |
@@ -35,8 +46,22 @@ jobs:
       - name: Extract manifest.json version
         id: manifest
         run: |
-          MANIFEST_VERSION=$(jq -r '.skills[0].version' .claude/manifest.json)
+          MANIFEST_VERSION=$(node -p "require('./.claude/manifest.json').skills[0].version")
           echo "MANIFEST_VERSION=$MANIFEST_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Extract package.json version
+        id: package
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Extract AGENTS.md versions
+        id: agents
+        run: |
+          AGENTS_HEADER_VERSION=$(grep -m1 -oE 'v[0-9]+\.[0-9]+\.[0-9]+' AGENTS.md | sed 's/^v//')
+          AGENTS_REGISTRY_VERSION=$(grep -m1 -E '^-   version:' AGENTS.md | awk '{print $3}')
+          echo "AGENTS_HEADER_VERSION=$AGENTS_HEADER_VERSION" >> $GITHUB_OUTPUT
+          echo "AGENTS_REGISTRY_VERSION=$AGENTS_REGISTRY_VERSION" >> $GITHUB_OUTPUT
 
       - name: Validate required fields in SKILL.md
         run: |
@@ -49,6 +74,24 @@ jobs:
         run: |
           if [ "${{ steps.skill.outputs.SKILL_VERSION }}" != "${{ steps.manifest.outputs.MANIFEST_VERSION }}" ]; then
             echo "Version mismatch between SKILL.md and manifest.json"
+            exit 1
+          fi
+
+      - name: Validate version consistency (SKILL vs package.json)
+        run: |
+          if [ "${{ steps.skill.outputs.SKILL_VERSION }}" != "${{ steps.package.outputs.PACKAGE_VERSION }}" ]; then
+            echo "Version mismatch between SKILL.md and package.json"
+            exit 1
+          fi
+
+      - name: Validate version consistency (SKILL vs AGENTS.md)
+        run: |
+          if [ "${{ steps.skill.outputs.SKILL_VERSION }}" != "${{ steps.agents.outputs.AGENTS_HEADER_VERSION }}" ]; then
+            echo "Version mismatch between SKILL.md and AGENTS.md header version"
+            exit 1
+          fi
+          if [ "${{ steps.skill.outputs.SKILL_VERSION }}" != "${{ steps.agents.outputs.AGENTS_REGISTRY_VERSION }}" ]; then
+            echo "Version mismatch between SKILL.md and AGENTS.md registry version"
             exit 1
           fi
 

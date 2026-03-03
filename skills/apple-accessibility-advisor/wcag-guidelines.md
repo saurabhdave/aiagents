@@ -21,7 +21,8 @@ building Apple platforms software.
   essential.
 - **Resize Text (1.4.4)**: Respect Dynamic Type and never clip or truncate at larger size
   categories.
-- **Motion (1.4.11)**: Provide options to reduce motion or remove animations.
+- **Motion**: Provide options to reduce non-essential motion and avoid animation-triggered
+  discomfort (see **2.2.2 Pause, Stop, Hide** and **2.3.3 Animation from Interactions**).
 
 ---
 

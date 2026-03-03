@@ -1,4 +1,4 @@
-# AGENTS.md --- Agent Integration Guide (v1.2.0)
+# AGENTS.md --- Agent Integration Guide (v1.2.4)
 
 This file provides machine-optimized context for AI agents interacting
 with this repository.
@@ -13,7 +13,7 @@ behavioral constraints for the skills in this repo.
 This repository contains Open Agent Skills focused on Apple platform
 engineering.
 
-Current Skill: - apple-accessibility-advisor (v1.2.0)
+Current Skill: - apple-accessibility-advisor (v1.2.4)
 
 Planned Domains: - Performance optimization - Architecture review -
 Concurrency modernization - CI automation guidance
@@ -25,7 +25,7 @@ Audience: Intermediate to senior Apple platform engineers.
 ## Skill Registry (Machine Metadata)
 
 -   skill_id: apple-accessibility-advisor
--   version: 1.2.0
+-   version: 1.2.4
 -   author: Saurabh Dave
 -   platforms: \["iOS","iPadOS","macOS","watchOS","visionOS","tvOS"\]
 -   areas:

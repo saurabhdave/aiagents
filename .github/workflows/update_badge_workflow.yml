@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   update-badge:
@@ -14,6 +15,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Extract version from tag
         id: version
@@ -23,13 +26,12 @@ jobs:
         run: |
           sed -i "s/badge\/version-[0-9.]*-green/badge\/version-${{ steps.version.outputs.VERSION }}-green/g" README.md
 
-      - name: Commit updated README
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add README.md
-          git commit -m "Auto-update README version badge to v${{ steps.version.outputs.VERSION }}" || echo "No changes to commit"
-
-      - name: Push changes
-        run: |
-          git push origin HEAD:main
+      - name: Create pull request for README badge update
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "chore: update README version badge to v${{ steps.version.outputs.VERSION }}"
+          title: "chore: update README version badge to v${{ steps.version.outputs.VERSION }}"
+          body: |
+            Auto-generated update to sync the README version badge with tag `v${{ steps.version.outputs.VERSION }}`.
+          branch: "automation/update-readme-badge-v${{ steps.version.outputs.VERSION }}"
+          delete-branch: true

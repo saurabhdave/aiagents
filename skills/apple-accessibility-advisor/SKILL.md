@@ -1,7 +1,7 @@
 ---
 name: apple-accessibility-advisor
 description: Production-grade accessibility audit and implementation advisor for Apple platform applications (iOS, iPadOS, macOS, watchOS, visionOS, tvOS).
-version: 1.2.0
+version: 1.2.4
 author: Saurabh Dave
 license: MIT
 ---
