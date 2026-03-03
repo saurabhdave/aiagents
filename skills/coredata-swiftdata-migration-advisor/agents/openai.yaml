@@ -1,0 +1,4 @@
+interface:
+  display_name: "CoreData to SwiftData Migration Advisor"
+  short_description: "CoreData to SwiftData migration guidance for Apple apps."
+  default_prompt: "Help me migrate my CoreData stack to SwiftData safely in production."

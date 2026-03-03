@@ -13,7 +13,9 @@ behavioral constraints for the skills in this repo.
 This repository contains Open Agent Skills focused on Apple platform
 engineering.
 
-Current Skill: - apple-accessibility-advisor (v1.2.4)
+Current Skills:
+- apple-accessibility-advisor (v1.2.4)
+- coredata-swiftdata-migration-advisor (v1.0.0)
 
 Planned Domains: - Performance optimization - Architecture review -
 Concurrency modernization - CI automation guidance
@@ -27,10 +29,18 @@ Audience: Intermediate to senior Apple platform engineers.
 -   skill_id: apple-accessibility-advisor
 -   version: 1.2.4
 -   author: Saurabh Dave
--   platforms: \["iOS","iPadOS","macOS","watchOS","visionOS","tvOS"\]
+-   platforms: ["iOS","iPadOS","macOS","watchOS","visionOS","tvOS"]
 -   areas:
-    \["accessibility","swiftui","uikit","appkit","watchkit","testing","wcag"\]
+    ["accessibility","swiftui","uikit","appkit","watchkit","testing","wcag"]
 -   manifest_file: skills/apple-accessibility-advisor/SKILL.md
+
+-   skill_id: coredata-swiftdata-migration-advisor
+-   version: 1.0.0
+-   author: Saurabh Dave
+-   platforms: ["iOS","iPadOS","macOS"]
+-   areas:
+    ["coredata","swiftdata","migration","persistence","schema","rollout"]
+-   manifest_file: skills/coredata-swiftdata-migration-advisor/SKILL.md
 
 Agents must treat SKILL.md as the authoritative instruction set.
 
@@ -48,6 +58,18 @@ Expected structured sections:
 3.  Recommended Improvements
 4.  Code Examples
 5.  Testing Strategy
+6.  Production Considerations
+
+When invoking `coredata-swiftdata-migration-advisor`, agents MUST enforce
+the Output Contract defined in SKILL.md.
+
+Expected structured sections:
+
+1.  Migration Readiness
+2.  API and Model Mapping
+3.  Migration Strategy
+4.  Code Examples
+5.  Validation Plan
 6.  Production Considerations
 
 Responses must use clear section headers and deterministic formatting.
@@ -82,17 +104,17 @@ Agents using this repository MUST:
 
 ## Invocation Examples
 
-Short Review: "Audit this SwiftUI view for accessibility compliance and
-return structured output."
+Accessibility Review: "Audit this SwiftUI view for accessibility
+compliance and return structured output."
 
-Deep Audit: "Run a full accessibility audit and produce a prioritized
-remediation plan."
+Accessibility Deep Audit: "Run a full accessibility audit and produce a
+prioritized remediation plan."
 
-Platform-Specific: "Adapt this VoiceOver behavior for watchOS and tvOS.
-Include code and testing notes."
+Migration Planning: "Create a phased CoreData to SwiftData migration
+plan for an app with existing production data."
 
-CI Validation: "Verify that all interactive elements define
-accessibility labels and return missing elements only."
+Migration Implementation: "Convert this CoreData fetch and context logic
+to SwiftData with a rollout-safe approach."
 
 ------------------------------------------------------------------------
 
@@ -101,10 +123,16 @@ accessibility labels and return missing elements only."
 1.  Load SKILL.md first.
 2.  Apply Output Contract.
 3.  Reference supporting modules only when deeper guidance is needed:
-    -   accessibility-patterns.md
-    -   testing-strategies.md
-    -   wcag-guidelines.md
-    -   swiftui-examples.md
+    - For `apple-accessibility-advisor`:
+      - accessibility-patterns.md
+      - testing-strategies.md
+      - wcag-guidelines.md
+      - swiftui-examples.md
+    - For `coredata-swiftdata-migration-advisor`:
+      - concept-mapping.md
+      - migration-patterns.md
+      - migration-strategy.md
+      - migration-checklist.md
 4.  Maintain deterministic structure.
 
 ------------------------------------------------------------------------
@@ -113,9 +141,9 @@ accessibility labels and return missing elements only."
 
 Semantic Versioning:
 
--   Major → Output contract or structural changes
--   Minor → Capability expansion
--   Patch → Wording refinement or minor improvements
+-   Major -> Output contract or structural changes
+-   Minor -> Capability expansion
+-   Patch -> Wording refinement or minor improvements
 
 Agents should reference version when debugging structured outputs.
 

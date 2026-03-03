@@ -9,6 +9,14 @@
       "description": "Production-grade accessibility advisor for Apple platforms.",
       "tags": ["accessibility", "swiftui", "uikit", "appkit", "wcag", "testing"],
       "platforms": ["iOS", "iPadOS", "macOS", "watchOS", "visionOS", "tvOS"]
+    },
+    {
+      "id": "coredata-swiftdata-migration-advisor",
+      "version": "1.0.0",
+      "entry": "skills/coredata-swiftdata-migration-advisor/SKILL.md",
+      "description": "Production-grade migration advisor for CoreData to SwiftData transitions.",
+      "tags": ["coredata", "swiftdata", "migration", "persistence", "schema"],
+      "platforms": ["iOS", "iPadOS", "macOS"]
     }
   ]
 }

@@ -6,6 +6,27 @@ This project follows Semantic Versioning (SemVer).
 
 ------------------------------------------------------------------------
 
+## [Unreleased]
+
+### Added
+
+-   Added new skill: `coredata-swiftdata-migration-advisor`.
+-   Added migration reference modules:
+    -   `concept-mapping.md`
+    -   `migration-patterns.md`
+    -   `migration-strategy.md`
+    -   `migration-checklist.md`
+-   Added agent UI metadata for the new skill (`agents/openai.yaml`).
+
+### Improved
+
+-   Updated `.claude/manifest.json` and `.claude-plugin/manifest.json` to
+    register the new skill.
+-   Updated README and AGENTS integration documentation for multi-skill
+    usage and invocation contracts.
+
+------------------------------------------------------------------------
+
 ## \[1.2.4\] - 2026-02-27
 
 ### Added

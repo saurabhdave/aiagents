@@ -39,13 +39,13 @@ CLI.
 ------------------------------------------------------------------------
 
 
-## What Makes This Skill Different
+## What Makes These Skills Different
 
 **Enterprise-oriented.**\
 Designed for production applications --- not tutorial-level examples.
 
 **Architectural focus.**\
-Prioritizes scalable, multi-platform accessibility patterns.
+Prioritizes scalable, multi-platform engineering decisions and migration safety.
 
 **Deterministic output.**\
 Enforces a strict Output Contract to ensure consistent structured
@@ -65,12 +65,20 @@ supporting the Agent Skills format.
     ├── .claude-plugin/
     │   └── manifest.json
     ├── skills/
-    │   └── apple-accessibility-advisor/
+    │   ├── apple-accessibility-advisor/
+    │   │   ├── SKILL.md
+    │   │   ├── accessibility-patterns.md
+    │   │   ├── swiftui-examples.md
+    │   │   ├── testing-strategies.md
+    │   │   └── wcag-guidelines.md
+    │   └── coredata-swiftdata-migration-advisor/
     │       ├── SKILL.md
-    │       ├── accessibility-patterns.md
-    │       ├── swiftui-examples.md
-    │       ├── testing-strategies.md
-    │       └── wcag-guidelines.md
+    │       ├── concept-mapping.md
+    │       ├── migration-patterns.md
+    │       ├── migration-strategy.md
+    │       ├── migration-checklist.md
+    │       └── agents/
+    │           └── openai.yaml
     ├── AGENTS.md
     ├── CHANGELOG.md
     ├── LICENSE
@@ -81,23 +89,27 @@ supporting the Agent Skills format.
 ## 🧰 Current Skills
 
   ------------------------------------------------------------------------------
-  Skill                           Description
-  ------------------------------- ----------------------------------------------
-  `apple-accessibility-advisor`   Production-grade accessibility audit and
-                                  implementation advisor for Apple platform
-                                  applications (iOS, iPadOS, macOS, watchOS,
-                                  visionOS, tvOS).
+  Skill                                  Description
+  -------------------------------------- ---------------------------------------
+  `apple-accessibility-advisor`          Production-grade accessibility audit and
+                                         implementation advisor for Apple platform
+                                         applications (iOS, iPadOS, macOS, watchOS,
+                                         visionOS, tvOS).
+  `coredata-swiftdata-migration-advisor` Production-grade migration advisor for
+                                         planning and executing CoreData to
+                                         SwiftData transitions in production apps.
 
   ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------
 
-## How to Use This Skill
+## How to Use These Skills
 
 ### Option A --- Using skills.sh (Recommended)
 
 ``` bash
 npx skills add saurabhdave/aiagents --skill apple-accessibility-advisor
+npx skills add saurabhdave/aiagents --skill coredata-swiftdata-migration-advisor
 ```
 
 Visit https://skills.sh to learn more about the Agent Skills format.
@@ -110,6 +122,7 @@ Visit https://skills.sh to learn more about the Agent Skills format.
 
     /plugin marketplace add saurabhdave/aiagents
     /plugin install apple-accessibility-advisor@aiagents
+    /plugin install coredata-swiftdata-migration-advisor@aiagents
 
 #### Project Configuration (Team-Wide)
 
@@ -118,7 +131,8 @@ Add this to `.claude/settings.json`:
 ``` json
 {
   "enabledPlugins": {
-    "apple-accessibility-advisor@aiagents": true
+    "apple-accessibility-advisor@aiagents": true,
+    "coredata-swiftdata-migration-advisor@aiagents": true
   },
   "extraKnownMarketplaces": {
     "aiagents": {
@@ -144,7 +158,7 @@ members.
 git clone https://github.com/saurabhdave/aiagents.git
 ```
 
-2.  Copy or symlink: `skills/apple-accessibility-advisor/` into your AI tool's skills directory.
+2.  Copy or symlink the skill folder you want (for example, `skills/apple-accessibility-advisor/` or `skills/coredata-swiftdata-migration-advisor/`) into your AI tool's skills directory.
 
 3.  Restart or reload your agent.
 

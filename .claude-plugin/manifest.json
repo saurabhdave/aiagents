@@ -9,6 +9,13 @@
       "skills": [
         "./skills/apple-accessibility-advisor"
       ]
+    },
+    {
+      "name": "coredata-swiftdata-migration-advisor",
+      "source": "skills/coredata-swiftdata-migration-advisor",
+      "skills": [
+        "./skills/coredata-swiftdata-migration-advisor"
+      ]
     }
   ]
 }
