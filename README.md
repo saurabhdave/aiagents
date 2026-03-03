@@ -105,30 +105,40 @@ supporting the Agent Skills format.
 
 ## How to Use These Skills
 
-### Option A --- Using skills.sh (Recommended)
+Pick one skill ID:
 
-``` bash
+- `apple-accessibility-advisor`
+- `coredata-swiftdata-migration-advisor`
+
+### Option A - skills.sh CLI (Recommended)
+
+Install one skill at a time:
+
+```bash
 npx skills add saurabhdave/aiagents --skill apple-accessibility-advisor
+```
+
+```bash
 npx skills add saurabhdave/aiagents --skill coredata-swiftdata-migration-advisor
 ```
 
-Visit https://skills.sh to learn more about the Agent Skills format.
+Learn more: https://skills.sh
 
 ------------------------------------------------------------------------
 
-### Option B --- Claude Code Plugin
+### Option B - Claude Code Plugin
 
-#### Personal Usage
+Personal setup:
 
-    /plugin marketplace add saurabhdave/aiagents
-    /plugin install apple-accessibility-advisor@aiagents
-    /plugin install coredata-swiftdata-migration-advisor@aiagents
+```text
+/plugin marketplace add saurabhdave/aiagents
+/plugin install apple-accessibility-advisor@aiagents
+/plugin install coredata-swiftdata-migration-advisor@aiagents
+```
 
-#### Project Configuration (Team-Wide)
+Team setup (`.claude/settings.json`):
 
-Add this to `.claude/settings.json`:
-
-``` json
+```json
 {
   "enabledPlugins": {
     "apple-accessibility-advisor@aiagents": true,
@@ -145,29 +155,25 @@ Add this to `.claude/settings.json`:
 }
 ```
 
-Committing this file enables the skill automatically for all team
-members.
+Commit this file to enable the same skills for the whole team.
 
 ------------------------------------------------------------------------
 
-### Option C --- Manual Installation
+### Option C - Manual Installation
 
-1.  Clone the repository:
+1. Clone the repo:
 
-``` bash
+```bash
 git clone https://github.com/saurabhdave/aiagents.git
 ```
 
-2.  Copy or symlink the skill folder you want (for example, `skills/apple-accessibility-advisor/` or `skills/coredata-swiftdata-migration-advisor/`) into your AI tool's skills directory.
+2. Copy or symlink one or both folders into your tool's skills directory:
+   - `skills/apple-accessibility-advisor/`
+   - `skills/coredata-swiftdata-migration-advisor/`
+3. Restart or reload your agent.
 
-3.  Restart or reload your agent.
-
-Refer to your tool documentation for skills directory location:
-
--   Claude Code
--   Cursor
--   Windsurf
--   Other Agent-Skills compatible tools
+Supported tools include Claude Code, Cursor, Windsurf, and other
+Agent-Skills compatible clients.
 
 ------------------------------------------------------------------------
 
