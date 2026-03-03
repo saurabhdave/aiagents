@@ -1,0 +1,4 @@
+interface:
+  display_name: "Apple Accessibility Advisor"
+  short_description: "Production accessibility guidance for Apple platform apps."
+  default_prompt: "Audit this SwiftUI or UIKit implementation for accessibility issues and provide production-ready fixes."
