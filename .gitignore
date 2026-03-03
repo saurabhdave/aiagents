@@ -12,6 +12,8 @@ Package.resolved
 # Journals, caches
 *.swp
 *.lock
+node_modules/
+package-lock.json
 
 # macOS
 .AppleDouble

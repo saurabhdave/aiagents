@@ -25,8 +25,8 @@
     "ai"
   ],
   "scripts": {
-    "lint": "markdownlint '**/*.md'",
-    "lint:md": "markdownlint '**/*.md'"
+    "lint": "markdownlint '**/*.md' --ignore node_modules --config .markdownlint.json",
+    "lint:md": "markdownlint '**/*.md' --ignore node_modules --config .markdownlint.json"
   },
   "author": "Saurabh Dave",
   "devDependencies": {
