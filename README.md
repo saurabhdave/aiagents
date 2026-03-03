@@ -88,20 +88,20 @@ supporting the Agent Skills format.
 
 ## 🧰 Current Skills
 
-  ------------------------------------------------------------------------------
+  -----------------------------------------------------------------------------------
   Skill                                  Description
   -------------------------------------- ---------------------------------------
-  `apple-accessibility-advisor`          Production-grade accessibility audit and
+`apple-accessibility-advisor`          Production-grade accessibility audit and
                                          implementation advisor for Apple platform
                                          applications (iOS, iPadOS, macOS, watchOS,
                                          visionOS, tvOS).
-  `coredata-swiftdata-migration-advisor` Production-grade migration advisor for
+`coredata-swiftdata-migration-advisor` Production-grade migration advisor for
                                          planning and executing CoreData to
                                          SwiftData transitions in production apps.
 
   ------------------------------------------------------------------------------
 
-------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
 
 ## How to Use These Skills
 
