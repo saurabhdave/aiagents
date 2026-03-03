@@ -139,13 +139,24 @@ to SwiftData with a rollout-safe approach."
 
 ## Versioning Policy
 
-Semantic Versioning:
+This repository uses two independent semantic version scopes:
 
--   Major -> Output contract or structural changes
--   Minor -> Capability expansion
--   Patch -> Wording refinement or minor improvements
+-   Repo version:
+    `package.json`, README badge, Git tag (`vX.Y.Z`), and AGENTS header
+    represent the release version of the repository as a whole.
+-   Skill version:
+    Each skill has its own version in:
+    - SKILL.md frontmatter (`version`)
+    - `.claude/manifest.json` skill entry
+    - AGENTS skill registry block
 
 Agents should reference version when debugging structured outputs.
+
+Version bump rules:
+
+-   Bump repo version for any published repository release.
+-   Bump a skill version only when that skill's behavior/content changes.
+-   Keep unchanged skill versions stable across unrelated repo updates.
 
 ------------------------------------------------------------------------
 

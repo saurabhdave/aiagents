@@ -97,6 +97,22 @@ supporting the Agent Skills format.
 
 --------------------------------------------------------------------------------------
 
+## 🔢 Versioning
+
+This project uses two version scopes:
+
+- **Repository version** (`package.json`, Git tag, README badge):
+  tracks the release of the full repo.
+- **Skill version** (per skill in `SKILL.md`, `.claude/manifest.json`,
+  and `AGENTS.md`):
+  tracks that skill's own evolution.
+
+Rule of thumb:
+- Bump repo version for releases.
+- Bump only the skills that changed.
+
+--------------------------------------------------------------------------------------
+
 ## How to Use These Skills
 
 Pick one skill ID:

@@ -21,6 +21,26 @@ Each skill must include a `SKILL.md` file with metadata (name, description,
 version, author, etc.) and clear usage instructions. See
 `skills/apple-accessibility-advisor/SKILL.md` as a reference.
 
+## Versioning Model
+
+This repository uses two version scopes:
+
+- Repository release version:
+  - `package.json`
+  - Git tag (`vX.Y.Z`)
+  - README version badge
+  - AGENTS.md header version
+- Skill version (per skill):
+  - `skills/<skill-name>/SKILL.md` frontmatter `version`
+  - Matching entry in `.claude/manifest.json`
+  - Matching `skill_id` block in `AGENTS.md`
+
+Version bump guidance:
+
+- Bump repository version for each published release.
+- Bump only the skill versions that actually changed.
+- Do not bump unrelated skills just because the repo version changed.
+
 ## Code & Documentation Standards
 
 - Markdown files should be linted with [markdownlint](https://github.com/DavidAnson/markdownlint)
