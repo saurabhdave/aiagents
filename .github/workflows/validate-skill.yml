@@ -1,7 +1,9 @@
-name: Validate Skill Version Consistency
+name: Validate Skill Consistency
 
 on:
   push:
+    branches:
+      - main
     tags:
       - 'v*.*.*'
   pull_request:
@@ -28,80 +30,108 @@ jobs:
       - name: Lint markdown
         run: npm run lint
 
-      - name: Extract tag version (if tag build)
-        id: tag
+      - name: Validate all skill metadata consistency
         run: |
-          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
-            echo "TAG_VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
-          else
-            echo "TAG_VERSION=" >> $GITHUB_OUTPUT
-          fi
+          node <<'NODE'
+          const fs = require("fs");
 
-      - name: Extract SKILL.md version
-        id: skill
-        run: |
-          SKILL_VERSION=$(grep "^version:" skills/apple-accessibility-advisor/SKILL.md | awk '{print $2}')
-          echo "SKILL_VERSION=$SKILL_VERSION" >> $GITHUB_OUTPUT
+          const semver = /^\d+\.\d+\.\d+$/;
+          const manifest = JSON.parse(fs.readFileSync(".claude/manifest.json", "utf8"));
+          const packageJson = JSON.parse(fs.readFileSync("package.json", "utf8"));
+          const agentsText = fs.readFileSync("AGENTS.md", "utf8");
 
-      - name: Extract manifest.json version
-        id: manifest
-        run: |
-          MANIFEST_VERSION=$(node -p "require('./.claude/manifest.json').skills[0].version")
-          echo "MANIFEST_VERSION=$MANIFEST_VERSION" >> $GITHUB_OUTPUT
+          if (!Array.isArray(manifest.skills) || manifest.skills.length === 0) {
+            throw new Error("No skills found in .claude/manifest.json");
+          }
 
-      - name: Extract package.json version
-        id: package
-        run: |
-          PACKAGE_VERSION=$(node -p "require('./package.json').version")
-          echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
+          const headerMatch = agentsText.match(/v(\d+\.\d+\.\d+)/);
+          if (!headerMatch) {
+            throw new Error("Could not find AGENTS.md header version");
+          }
+          const agentsHeaderVersion = headerMatch[1];
+          if (agentsHeaderVersion !== packageJson.version) {
+            throw new Error(
+              `Package/AGENTS header mismatch: package.json=${packageJson.version}, AGENTS.md=${agentsHeaderVersion}`
+            );
+          }
 
-      - name: Extract AGENTS.md versions
-        id: agents
-        run: |
-          AGENTS_HEADER_VERSION=$(grep -m1 -oE 'v[0-9]+\.[0-9]+\.[0-9]+' AGENTS.md | sed 's/^v//')
-          AGENTS_REGISTRY_VERSION=$(grep -m1 -E '^-   version:' AGENTS.md | awk '{print $3}')
-          echo "AGENTS_HEADER_VERSION=$AGENTS_HEADER_VERSION" >> $GITHUB_OUTPUT
-          echo "AGENTS_REGISTRY_VERSION=$AGENTS_REGISTRY_VERSION" >> $GITHUB_OUTPUT
+          const agentsVersionBySkill = new Map();
+          const agentsRegex = /-\s+skill_id:\s*([^\n]+)\n-\s+version:\s*([0-9]+\.[0-9]+\.[0-9]+)/g;
+          for (const match of agentsText.matchAll(agentsRegex)) {
+            agentsVersionBySkill.set(match[1].trim(), match[2].trim());
+          }
 
-      - name: Validate required fields in SKILL.md
-        run: |
-          REQUIRED_FIELDS=("name:" "description:" "version:" "author:" "license:")
-          for field in "${REQUIRED_FIELDS[@]}"; do
-            grep -q "$field" skills/apple-accessibility-advisor/SKILL.md || { echo "Missing $field in SKILL.md"; exit 1; }
-          done
+          const requiredFields = ["name:", "description:", "version:", "author:", "license:"];
+          for (const skill of manifest.skills) {
+            if (!skill.id || !skill.entry || !skill.version) {
+              throw new Error(`Invalid manifest skill entry: ${JSON.stringify(skill)}`);
+            }
+            if (!semver.test(skill.version)) {
+              throw new Error(`Manifest version is not semver for ${skill.id}: ${skill.version}`);
+            }
+            if (!fs.existsSync(skill.entry)) {
+              throw new Error(`Skill entry missing for ${skill.id}: ${skill.entry}`);
+            }
 
-      - name: Validate version consistency (SKILL vs Manifest)
-        run: |
-          if [ "${{ steps.skill.outputs.SKILL_VERSION }}" != "${{ steps.manifest.outputs.MANIFEST_VERSION }}" ]; then
-            echo "Version mismatch between SKILL.md and manifest.json"
-            exit 1
-          fi
+            const skillText = fs.readFileSync(skill.entry, "utf8");
+            for (const field of requiredFields) {
+              if (!new RegExp(`(^|\\n)${field}`).test(skillText)) {
+                throw new Error(`Missing ${field} in ${skill.entry}`);
+              }
+            }
 
-      - name: Validate version consistency (SKILL vs package.json)
-        run: |
-          if [ "${{ steps.skill.outputs.SKILL_VERSION }}" != "${{ steps.package.outputs.PACKAGE_VERSION }}" ]; then
-            echo "Version mismatch between SKILL.md and package.json"
-            exit 1
-          fi
+            const skillNameMatch = skillText.match(/(?:^|\n)name:\s*([^\n]+)/);
+            if (!skillNameMatch) {
+              throw new Error(`Missing name value in ${skill.entry}`);
+            }
+            const skillName = skillNameMatch[1].trim();
+            if (skillName !== skill.id) {
+              throw new Error(
+                `Skill id/name mismatch for ${skill.id}: SKILL.md has ${skillName}`
+              );
+            }
 
-      - name: Validate version consistency (SKILL vs AGENTS.md)
-        run: |
-          if [ "${{ steps.skill.outputs.SKILL_VERSION }}" != "${{ steps.agents.outputs.AGENTS_HEADER_VERSION }}" ]; then
-            echo "Version mismatch between SKILL.md and AGENTS.md header version"
-            exit 1
-          fi
-          if [ "${{ steps.skill.outputs.SKILL_VERSION }}" != "${{ steps.agents.outputs.AGENTS_REGISTRY_VERSION }}" ]; then
-            echo "Version mismatch between SKILL.md and AGENTS.md registry version"
-            exit 1
-          fi
+            const skillVersionMatch = skillText.match(/(?:^|\n)version:\s*([0-9]+\.[0-9]+\.[0-9]+)/);
+            if (!skillVersionMatch) {
+              throw new Error(`Missing semver version in ${skill.entry}`);
+            }
+            const skillVersion = skillVersionMatch[1];
+            if (skillVersion !== skill.version) {
+              throw new Error(
+                `Manifest/SKILL version mismatch for ${skill.id}: manifest=${skill.version}, SKILL.md=${skillVersion}`
+              );
+            }
 
-      - name: Validate tag matches SKILL.md (only on tag push)
+            const agentsVersion = agentsVersionBySkill.get(skill.id);
+            if (!agentsVersion) {
+              throw new Error(`Missing AGENTS.md registry entry for skill_id: ${skill.id}`);
+            }
+            if (agentsVersion !== skill.version) {
+              throw new Error(
+                `AGENTS/manifest version mismatch for ${skill.id}: AGENTS.md=${agentsVersion}, manifest=${skill.version}`
+              );
+            }
+          }
+
+          console.log(`Validated ${manifest.skills.length} skills across SKILL.md, manifest, and AGENTS.md.`);
+          NODE
+
+      - name: Validate tag matches package version (only on tag push)
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
-          if [ "${{ steps.tag.outputs.TAG_VERSION }}" != "${{ steps.skill.outputs.SKILL_VERSION }}" ]; then
-            echo "Tag version does not match SKILL.md version"
+          TAG_VERSION="${GITHUB_REF#refs/tags/v}"
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          AGENTS_HEADER_VERSION=$(grep -m1 -oE 'v[0-9]+\.[0-9]+\.[0-9]+' AGENTS.md | sed 's/^v//')
+
+          if [ "$TAG_VERSION" != "$PACKAGE_VERSION" ]; then
+            echo "Tag version does not match package.json version"
+            exit 1
+          fi
+
+          if [ "$TAG_VERSION" != "$AGENTS_HEADER_VERSION" ]; then
+            echo "Tag version does not match AGENTS.md header version"
             exit 1
           fi
 
       - name: Success
-        run: echo "Skill validation passed successfully."
+        run: echo "All skill validation checks passed."
