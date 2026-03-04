@@ -6,6 +6,27 @@ This project follows Semantic Versioning (SemVer).
 
 ------------------------------------------------------------------------
 
+## [1.4.0] - 2026-03-04
+
+### Added
+
+-   Added new skill: `observable-migration-advisor`.
+-   Added Observable migration reference modules:
+    -   `concept-mapping.md`
+    -   `migration-patterns.md`
+    -   `migration-strategy.md`
+    -   `migration-checklist.md`
+-   Added agent UI metadata for the new skill (`agents/openai.yaml`).
+
+### Improved
+
+-   Updated `.claude/manifest.json` and `.claude-plugin/manifest.json` to
+    register the new skill.
+-   Updated README and AGENTS integration docs with the new skill,
+    invocation contract, and installation commands.
+
+------------------------------------------------------------------------
+
 ## [1.3.0] - 2026-03-03
 
 ### Added

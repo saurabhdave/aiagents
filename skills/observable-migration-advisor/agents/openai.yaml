@@ -1,0 +1,4 @@
+interface:
+  display_name: "Observable Migration Advisor"
+  short_description: "Migrate ObservableObject code to @Observable safely."
+  default_prompt: "Help me migrate this ObservableObject-based SwiftUI code to @Observable with a phased plan."

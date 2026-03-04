@@ -17,6 +17,14 @@
       "description": "Production-grade migration advisor for CoreData to SwiftData transitions.",
       "tags": ["coredata", "swiftdata", "migration", "persistence", "schema"],
       "platforms": ["iOS", "iPadOS", "macOS"]
+    },
+    {
+      "id": "observable-migration-advisor",
+      "version": "1.0.0",
+      "entry": "skills/observable-migration-advisor/SKILL.md",
+      "description": "Production-grade migration advisor for ObservableObject to @Observable modernization.",
+      "tags": ["observation", "observable", "observableobject", "swiftui", "migration", "combine"],
+      "platforms": ["iOS", "iPadOS", "macOS"]
     }
   ]
 }

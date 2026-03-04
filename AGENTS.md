@@ -1,4 +1,4 @@
-# AGENTS.md --- Agent Integration Guide (v1.3.0)
+# AGENTS.md --- Agent Integration Guide (v1.4.0)
 
 This file provides machine-optimized context for AI agents interacting
 with this repository.
@@ -16,6 +16,7 @@ engineering.
 Current Skills:
 - apple-accessibility-advisor (v1.3.0)
 - coredata-swiftdata-migration-advisor (v1.0.0)
+- observable-migration-advisor (v1.0.0)
 
 Planned Domains: - Performance optimization - Architecture review -
 Concurrency modernization - CI automation guidance
@@ -42,6 +43,14 @@ Audience: Intermediate to senior Apple platform engineers.
     ["coredata","swiftdata","migration","persistence","schema","rollout"]
 -   manifest_file: skills/coredata-swiftdata-migration-advisor/SKILL.md
 
+-   skill_id: observable-migration-advisor
+-   version: 1.0.0
+-   author: Saurabh Dave
+-   platforms: ["iOS","iPadOS","macOS"]
+-   areas:
+    ["observation","observable","observableobject","swiftui","migration","combine"]
+-   manifest_file: skills/observable-migration-advisor/SKILL.md
+
 Agents must treat SKILL.md as the authoritative instruction set.
 
 ------------------------------------------------------------------------
@@ -67,6 +76,18 @@ Expected structured sections:
 
 1.  Migration Readiness
 2.  API and Model Mapping
+3.  Migration Strategy
+4.  Code Examples
+5.  Validation Plan
+6.  Production Considerations
+
+When invoking `observable-migration-advisor`, agents MUST enforce the
+Output Contract defined in SKILL.md.
+
+Expected structured sections:
+
+1.  Migration Readiness
+2.  Concept Mapping
 3.  Migration Strategy
 4.  Code Examples
 5.  Validation Plan
@@ -116,6 +137,12 @@ plan for an app with existing production data."
 Migration Implementation: "Convert this CoreData fetch and context logic
 to SwiftData with a rollout-safe approach."
 
+Observation Migration Planning: "Create a phased ObservableObject to
+@Observable migration plan for a production SwiftUI app."
+
+Observation Migration Implementation: "Convert this ObservableObject
+view model and wrappers to @Observable safely."
+
 ------------------------------------------------------------------------
 
 ## Skill Loading Strategy for Agents
@@ -129,6 +156,11 @@ to SwiftData with a rollout-safe approach."
       - wcag-guidelines.md
       - swiftui-examples.md
     - For `coredata-swiftdata-migration-advisor`:
+      - concept-mapping.md
+      - migration-patterns.md
+      - migration-strategy.md
+      - migration-checklist.md
+    - For `observable-migration-advisor`:
       - concept-mapping.md
       - migration-patterns.md
       - migration-strategy.md

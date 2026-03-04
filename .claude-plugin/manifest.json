@@ -16,6 +16,13 @@
       "skills": [
         "./skills/coredata-swiftdata-migration-advisor"
       ]
+    },
+    {
+      "name": "observable-migration-advisor",
+      "source": "skills/observable-migration-advisor",
+      "skills": [
+        "./skills/observable-migration-advisor"
+      ]
     }
   ]
 }
