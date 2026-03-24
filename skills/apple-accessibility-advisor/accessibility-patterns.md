@@ -417,39 +417,100 @@ Button(action: { }) {
 .accessibilityLabel(A11y.addButton)
 ```
 
-## 8. Checklist
+## 8. Custom VoiceOver Rotors
 
-### Visual
-- [ ] Text uses semantic fonts (`.body`, `.title`, etc.)
-- [ ] Custom fonts use `relativeTo:` for scaling
-- [ ] Minimum touch target 44×44 points
-- [ ] Color is not the only indicator
-- [ ] Sufficient color contrast (4.5:1 for text)
+Custom rotors let users jump between homogeneous targets (headings, links, errors) without swiping through every element. Prefer rotors over custom actions when there are many targets of the same type.
 
-### VoiceOver
-- [ ] All interactive elements have labels
-- [ ] Decorative images are hidden
-- [ ] Meaningful images have descriptions
-- [ ] Custom controls have appropriate traits
-- [ ] Related content is grouped
-- [ ] Focus order is logical
+### SwiftUI
 
-### Motion
-- [ ] Animations respect Reduce Motion
-- [ ] No auto-playing videos without control
-- [ ] Flashing content is avoided
+```swift
+struct DocumentView: View {
+    let sections: [DocumentSection]
 
-### Interaction
-- [ ] Full keyboard navigation support
-- [ ] Error states are announced
+    var body: some View {
+        ScrollView {
+            ForEach(sections) { section in
+                SectionView(section: section)
+            }
+        }
+        .accessibilityRotor("Headings") {
+            ForEach(sections) { section in
+                AccessibilityRotorEntry(section.title, id: section.id)
+            }
+        }
+        .accessibilityRotor("Errors") {
+            ForEach(sections.filter { $0.hasError }) { section in
+                AccessibilityRotorEntry(section.errorDescription ?? "", id: section.id)
+            }
+        }
+    }
+}
+```
 
-> Before release, verify dynamic type scaling, contrast in both modes,
-> and localization does not truncate text.
+### UIKit
+
+```swift
+override var accessibilityCustomRotors: [UIAccessibilityCustomRotor]? {
+    get {
+        let headingRotor = UIAccessibilityCustomRotor(name: "Headings") { [weak self] predicate in
+            guard let self else { return nil }
+            let headings = self.headingViews
+            let current = predicate.currentItem.targetElement as? UIView
+            let idx = headings.firstIndex(where: { $0 === current }) ?? -1
+            let next = predicate.searchDirection == .next
+                ? headings[safe: idx + 1]
+                : headings[safe: idx - 1]
+            return next.map { UIAccessibilityCustomRotorItemResult(targetElement: $0, targetRange: nil) }
+        }
+        return [headingRotor]
+    }
+    set {}
+}
+```
 
 ---
 
-# Architectural Principle
+## 9. accessibilityRepresentation
 
-Accessibility must be integrated at every stage: design, component
-library, CI validation, and code review. Accessibility is not a feature —
-it's architecture.
+Use `accessibilityRepresentation` to present a custom-drawn control as a standard platform element, eliminating manual reconstruction of all accessibility semantics.
+
+```swift
+struct RatingControl: View {
+    @Binding var rating: Double
+
+    var body: some View {
+        Canvas { context, size in
+            // Custom star drawing...
+        }
+        .accessibilityRepresentation {
+            Slider(value: $rating, in: 0...5, step: 1)
+                .accessibilityLabel("Rating")
+        }
+    }
+}
+```
+
+VoiceOver treats the Canvas as a native `Slider` — the user gets increment/decrement gestures, value announcements, and correct traits with no additional modifier work.
+
+---
+
+## 10. Quick-Reference Checklist
+
+> For the full audit checklist, see the **Audit Checklist** section in `SKILL.md`.
+
+This checklist is scoped to the patterns in this file:
+
+- [ ] Icon-only buttons have `.accessibilityLabel` (§1)
+- [ ] Related elements use `.accessibilityElement(children: .combine)` (§1)
+- [ ] Custom controls expose actions via `.accessibilityActions` (§1)
+- [ ] Semantic fonts or `relativeTo:` custom fonts used (§2)
+- [ ] `@ScaledMetric` used for icon sizes and spacing (§2)
+- [ ] Animations guarded by `@Environment(\.accessibilityReduceMotion)` (§3)
+- [ ] Non-text UI meets 3:1 contrast; text meets 4.5:1 (§4)
+- [ ] Color-only states include a shape or text indicator (§4)
+- [ ] Custom-drawn controls use `accessibilityRepresentation` (§9)
+- [ ] List/document views with many homogeneous targets expose a custom rotor (§8)
+
+---
+
+> Accessibility must be integrated at every stage: design, component library, CI validation, and code review. Accessibility is not a feature — it's architecture.

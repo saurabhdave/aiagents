@@ -53,6 +53,71 @@ ContentView().environmentObject(settings)
 ContentView().environment(settings)
 ```
 
+## Testing @Observable Models
+
+`@Observable` requires different test strategies — `objectWillChange` does not exist and cannot be used.
+
+### Unit testing model state (synchronous)
+
+Plain mutation and assertion — no `expectation` or sink needed for synchronous state changes:
+
+```swift
+func testUsernameUpdate() {
+    let settings = UserSettings()
+    settings.username = "alice"
+    XCTAssertEqual(settings.username, "alice")
+    XCTAssertEqual(settings.displayName, "alice")
+}
+```
+
+### Asserting observation tracking fires
+
+Use `withObservationTracking` to verify that mutating a property triggers the `onChange` callback:
+
+```swift
+func testObservationFires() {
+    let model = UserSettings()
+    var changeCount = 0
+
+    withObservationTracking {
+        _ = model.username   // register tracking
+    } onChange: {
+        changeCount += 1
+    }
+
+    model.username = "bob"
+    XCTAssertEqual(changeCount, 1)
+}
+```
+
+### Testing UIKit view controllers bound via withObservationTracking
+
+```swift
+func testViewControllerUpdatesOnModelChange() {
+    let model = UserSettings()
+    let vc = ProfileViewController(settings: model)
+    vc.loadViewIfNeeded()
+    vc.startObserving()   // sets up withObservationTracking loop
+
+    model.username = "carol"
+    RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.01))  // drain one run loop cycle
+
+    XCTAssertEqual(vc.nameLabel.text, "carol")
+}
+```
+
+### What not to do
+
+```swift
+// Wrong: @Observable has no objectWillChange — this will not compile
+model.objectWillChange.sink { _ in ... }
+
+// Wrong: @ObservedObject test pattern — inapplicable to @Observable
+XCTAssertNotNil(model.objectWillChange)
+```
+
+---
+
 ## Release readiness checklist
 
 - [ ] Deployment target supports Observation (`iOS 17+` / `macOS 14+`).

@@ -4,7 +4,7 @@
   "skills": [
     {
       "id": "apple-accessibility-advisor",
-      "version": "1.3.0",
+      "version": "1.4.0",
       "entry": "skills/apple-accessibility-advisor/SKILL.md",
       "description": "Production-grade accessibility advisor for Apple platforms.",
       "tags": ["accessibility", "swiftui", "uikit", "appkit", "wcag", "testing"],
@@ -12,7 +12,7 @@
     },
     {
       "id": "coredata-swiftdata-migration-advisor",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "entry": "skills/coredata-swiftdata-migration-advisor/SKILL.md",
       "description": "Production-grade migration advisor for CoreData to SwiftData transitions.",
       "tags": ["coredata", "swiftdata", "migration", "persistence", "schema"],
@@ -20,7 +20,7 @@
     },
     {
       "id": "observable-migration-advisor",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "entry": "skills/observable-migration-advisor/SKILL.md",
       "description": "Production-grade migration advisor for ObservableObject to @Observable modernization.",
       "tags": ["observation", "observable", "observableobject", "swiftui", "migration", "combine"],

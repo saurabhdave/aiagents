@@ -64,8 +64,38 @@ deleteButton.tap()
 ## 3. Continuous Integration
 
 - Run UI tests on multiple simulators configured with different accessibility settings.
-- Incorporate accessibility linting tools (e.g., `axe-core` for web components or custom Swift scripts) in build pipelines.
 - Fail builds if accessibility identifiers are missing or if critical labels are empty.
+
+### Automated Accessibility Auditing (Xcode 15+ / iOS 17+)
+
+`XCUIElement.performAccessibilityAudit()` runs a built-in audit that catches contrast failures, missing labels, and other issues automatically.
+
+```swift
+func testAccessibilityAudit() throws {
+    let app = XCUIApplication()
+    app.launch()
+    // Audits the entire screen for common accessibility violations
+    try app.performAccessibilityAudit()
+}
+```
+
+Scope to specific issue types and suppress known false positives:
+
+```swift
+func testAccessibilityAuditContrastOnly() throws {
+    let app = XCUIApplication()
+    app.launch()
+    try app.performAccessibilityAudit(for: [.contrast, .sufficientElementDescription]) { issue in
+        // Return true to suppress a known false positive
+        if issue.element.identifier == "decorativeBackground" {
+            return true
+        }
+        return false
+    }
+}
+```
+
+This runs in the simulator and can be gated in CI on any `xcodebuild test` pipeline without device access.
 
 ---
 

@@ -1,11 +1,10 @@
 # SwiftUI Accessibility Examples
 
-This document collects concrete SwiftUI snippets demonstrating key accessibility patterns from the
-`accessibility-patterns.md` guidance. Since that file now contains a broader
-set of examples alongside its architectural patterns, the two should be
-consulted together. These samples remain suitable for copying into
-production projects and can be used as reference material for audits or
-training.
+Production-ready SwiftUI component patterns for direct use in apps or audits.
+
+**Scope**: This file covers component-level accessibility implementations by UI type.
+For architectural patterns (grouping strategies, motion, color system, custom rotors), see `accessibility-patterns.md`.
+For WCAG criterion mappings, see `wcag-guidelines.md`.
 
 ---
 
@@ -90,14 +89,14 @@ Although color is usually defined in asset catalogs, verify with code:
 
 ```swift
 Text("Warning")
-    .foregroundColor(Color(UIColor.systemRed))
+    .foregroundStyle(.red)
 ```
 
 Add redundancy for color-only indicators:
 
 ```swift
 Image(systemName: "circle.fill")
-    .foregroundColor(.green)
+    .foregroundStyle(.green)
     .accessibilityLabel("Success")
 ```
 
@@ -195,14 +194,78 @@ struct ProfileRow: View {
 
 ---
 
-## 9. Audit Tips
+## 9. List Row with Disclosure Action
 
-- Preview with the Accessibility Inspector in Xcode.
-- Run VoiceOver on device to catch unexpected behavior.
-- Add unit tests using `XCTest` and `accessibilityLabel` checks where possible.
+Combine label, subtitle, and trailing chevron into a single VoiceOver element with an explicit action.
+
+```swift
+struct ArticleRow: View {
+    let article: Article
+
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                Text(article.title).font(.headline)
+                Text(article.summary).font(.subheadline).foregroundStyle(.secondary)
+            }
+            Spacer()
+            Image(systemName: "chevron.right").foregroundStyle(.tertiary)
+        }
+        .padding()
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(article.title)
+        .accessibilityValue(article.summary)
+        .accessibilityHint("Double tap to read full article")
+        .accessibilityAddTraits(.isButton)
+    }
+}
+```
 
 ---
 
-These examples are meant to be copied into your own SwiftUI components or used as teaching
-aids. Combine them with the patterns in `accessibility-patterns.md` and the WCAG guidelines to
-create fully accessible applications.
+## 10. Toggle with Announced Status
+
+Go beyond the default toggle trait by including a meaningful `.accessibilityValue`.
+
+```swift
+struct NotificationToggle: View {
+    @Binding var isEnabled: Bool
+
+    var body: some View {
+        Toggle(isOn: $isEnabled) {
+            Text("Push Notifications")
+        }
+        .accessibilityValue(isEnabled ? "Enabled" : "Disabled")
+        .accessibilityHint("Toggles push notification delivery")
+    }
+}
+```
+
+---
+
+## 11. Tab with Dynamic Badge Count
+
+Announce badge counts so VoiceOver users know about unread items without visual inspection.
+
+```swift
+struct InboxTab: View {
+    let unreadCount: Int
+
+    var body: some View {
+        Label("Inbox", systemImage: "tray")
+            .accessibilityLabel(
+                unreadCount > 0
+                    ? "Inbox, \(unreadCount) unread messages"
+                    : "Inbox"
+            )
+    }
+}
+```
+
+---
+
+## 12. Audit Tips
+
+- Preview with the Accessibility Inspector in Xcode.
+- Run VoiceOver on device to catch unexpected behavior.
+- Use `XCUIElement.performAccessibilityAudit()` (Xcode 15+) in UI tests to catch issues automatically.

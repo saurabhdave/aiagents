@@ -39,3 +39,13 @@ class ViewModel {
     var internalCache: [String: Data] = [:]
 }
 ```
+
+## Constraints and Limitations
+
+These are migration blockers or correctness traps. Verify before migrating.
+
+- **Class-only.** `@Observable` cannot be applied to a `struct`. Compile error. If a type using `ObservableObject` must remain a struct (e.g., value semantics required), it cannot be migrated — keep `ObservableObject` or redesign to a class.
+- **No `objectWillChange` publisher.** `@Observable` types have no `objectWillChange: ObservableObjectPublisher`. Any code subscribing to `model.objectWillChange.sink { ... }` (e.g., a `UIViewController` binding) must be replaced with `withObservationTracking` or an `AsyncStream` bridge.
+- **Cannot manually conform to `Observable`.** The `Observable` protocol conformance is synthesized exclusively by the `@Observable` macro. Writing `class Foo: Observable { }` without the macro compiles but installs no tracking — properties will not trigger updates.
+- **`Sendable` not implied.** `@Observable` classes are not `Sendable` by default. Passing them across actor boundaries (e.g., into a `Task` or `@MainActor` method) requires either `@MainActor` isolation on the class or explicit `@unchecked Sendable` with manual synchronization.
+- **Subclassing restrictions.** An `@Observable` subclass must also be annotated with `@Observable`. Inheriting observation tracking from a non-`@Observable` superclass is not supported.

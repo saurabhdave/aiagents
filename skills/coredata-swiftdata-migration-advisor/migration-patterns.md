@@ -149,3 +149,77 @@ class Item {
     }
 }
 ```
+
+## 7) Inverse Relationships
+
+CoreData enforces inverses in the model editor. SwiftData requires an explicit `@Relationship` annotation with `.inverse` — omitting it causes orphaned records on deletion.
+
+### Before (CoreData)
+
+```swift
+class Project: NSManagedObject {
+    @NSManaged var tasks: NSSet?   // inverse defined in .xcdatamodeld
+}
+
+class Task: NSManagedObject {
+    @NSManaged var project: Project?
+}
+```
+
+### After (SwiftData)
+
+```swift
+@Model
+class Project {
+    var name: String
+    // cascade deletes tasks when project is deleted; inverse declared here
+    @Relationship(deleteRule: .cascade, inverse: \Task.project)
+    var tasks: [Task] = []
+
+    init(name: String) { self.name = name }
+}
+
+@Model
+class Task {
+    var title: String
+    var project: Project?   // back-reference; SwiftData resolves the inverse
+
+    init(title: String) { self.title = title }
+}
+```
+
+## 8) Transformable / External Storage
+
+CoreData `Transformable` attributes with custom `ValueTransformer` have no direct equivalent. Use `Codable` conformance instead. For large blobs that used `allowsExternalBinaryDataStorage`, use `@Attribute(.externalStorage)`.
+
+### Before (CoreData)
+
+```swift
+class Profile: NSManagedObject {
+    @NSManaged var avatar: UIImage?          // Transformable
+    @NSManaged var rawData: Data?            // External binary storage
+}
+```
+
+### After (SwiftData)
+
+```swift
+import SwiftData
+
+// Make the type Codable for attribute storage
+struct AvatarData: Codable {
+    let pngData: Data
+}
+
+@Model
+class Profile {
+    var avatar: AvatarData?                  // Codable replaces Transformable
+
+    @Attribute(.externalStorage)
+    var rawData: Data?                       // stored outside the SQLite row
+
+    init() {}
+}
+```
+
+Note: `UIImage` itself is not `Codable`. Wrap it in a `Codable` struct that stores `Data` and converts on access, or persist the raw `Data` directly with `@Attribute(.externalStorage)`.

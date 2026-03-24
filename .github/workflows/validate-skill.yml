@@ -75,12 +75,12 @@ jobs:
 
             const skillText = fs.readFileSync(skill.entry, "utf8");
             for (const field of requiredFields) {
-              if (!new RegExp(`(^|\\n)${field}`).test(skillText)) {
+              if (!new RegExp(`(^|\\n)\\s*${field}`).test(skillText)) {
                 throw new Error(`Missing ${field} in ${skill.entry}`);
               }
             }
 
-            const skillNameMatch = skillText.match(/(?:^|\n)name:\s*([^\n]+)/);
+            const skillNameMatch = skillText.match(/(?:^|\n)\s*name:\s*([^\n]+)/);
             if (!skillNameMatch) {
               throw new Error(`Missing name value in ${skill.entry}`);
             }
@@ -91,7 +91,7 @@ jobs:
               );
             }
 
-            const skillVersionMatch = skillText.match(/(?:^|\n)version:\s*([0-9]+\.[0-9]+\.[0-9]+)/);
+            const skillVersionMatch = skillText.match(/(?:^|\n)\s*version:\s*([0-9]+\.[0-9]+\.[0-9]+)/);
             if (!skillVersionMatch) {
               throw new Error(`Missing semver version in ${skill.entry}`);
             }

@@ -1,9 +1,10 @@
 ---
 name: observable-migration-advisor
 description: Production-grade migration advisor for moving Apple app observation code from ObservableObject to the @Observable macro. Use when converting models, replacing @Published and objectWillChange patterns, updating SwiftUI wrappers (@StateObject/@ObservedObject/@EnvironmentObject), and planning phased rollout for mixed ObservableObject + @Observable codebases.
-version: 1.0.0
-author: Saurabh Dave
 license: MIT
+metadata:
+  version: 1.1.0
+  author: Saurabh Dave
 ---
 
 # ObservableObject to @Observable Migration Advisor

@@ -6,6 +6,41 @@ This project follows Semantic Versioning (SemVer).
 
 ------------------------------------------------------------------------
 
+## [1.5.0] - 2026-03-24
+
+### Added
+
+-   `CLAUDE.md` — repository guidance for Claude Code instances.
+-   `apple-accessibility-advisor` (v1.4.0):
+    -   Custom VoiceOver rotor patterns (`AccessibilityRotorEntry`, `UIAccessibilityCustomRotor`).
+    -   `accessibilityRepresentation` pattern for custom-drawn controls.
+    -   Automated accessibility auditing via `XCUIElement.performAccessibilityAudit()` (Xcode 15+).
+    -   WCAG criteria: 1.4.11 Non-text Contrast, 2.5.3 Label in Name, 2.5.5 Target Size.
+    -   Production component examples: list row, toggle with status, tab badge announcement.
+-   `coredata-swiftdata-migration-advisor` (v1.1.0):
+    -   Unsupported CoreData features table (`NSFetchedResultsController`, batch ops, abstract entities, fetched properties, transformable, history tracking).
+    -   Inverse relationship pattern with `@Relationship(deleteRule:inverse:)`.
+    -   Transformable / external storage migration pattern.
+    -   Custom `MigrationStage` example with `willMigrate`/`didMigrate`.
+    -   Batched backfill with `fetchLimit`/`fetchOffset` for large datasets.
+    -   CloudKit migration section: container setup, schema requirements, migration window protocol, private-only limitation.
+-   `observable-migration-advisor` (v1.1.0):
+    -   Constraints section: class-only, no `objectWillChange`, no manual `Observable` conformance, `Sendable` interaction, subclassing rules.
+    -   `@Published` with `willSet`/`didSet` side-effects migration — three ranked options.
+    -   `AsyncStream` bridge replacing `PassthroughSubject`/`CurrentValueSubject`.
+    -   Testing `@Observable` models: synchronous state tests, `withObservationTracking` assertions, UIKit VC test pattern, anti-patterns.
+
+### Fixed
+
+-   Deprecated `.foregroundColor(Color(UIColor.systemRed))` replaced with `.foregroundStyle(.red)` in `swiftui-examples.md`.
+-   Removed irrelevant `axe-core` (web tool) reference from `testing-strategies.md`.
+-   CI validation regex updated to handle `metadata:`-nested `version:` and `author:` frontmatter fields.
+-   Fixed frontmatter in all three SKILL.md files: moved `version` and `author` under supported `metadata:` key.
+-   Deduplicated checklist in `accessibility-patterns.md` (was a copy of the one in `SKILL.md`).
+-   Differentiated `swiftui-examples.md` scope from `accessibility-patterns.md` — each file now has a distinct role.
+
+------------------------------------------------------------------------
+
 ## [1.4.0] - 2026-03-04
 
 ### Added

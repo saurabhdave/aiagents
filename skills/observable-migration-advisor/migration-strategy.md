@@ -47,6 +47,42 @@ struct ContentView: View {
 - For query-driven view work, prefer `task(id:)` and async workflows.
 - For non-view observers, use `withObservationTracking` or bridge to `AsyncStream`.
 
+### AsyncStream bridge (replaces PassthroughSubject / CurrentValueSubject)
+
+Use this pattern when a non-SwiftUI layer (network service, analytics, background processor) needs to emit events into an `@Observable` model.
+
+```swift
+@Observable
+class EventFeedViewModel {
+    private(set) var events: [AppEvent] = []
+    private var continuation: AsyncStream<AppEvent>.Continuation?
+
+    private lazy var stream: AsyncStream<AppEvent> = {
+        AsyncStream { [weak self] continuation in
+            self?.continuation = continuation
+        }
+    }()
+
+    func emit(_ event: AppEvent) {
+        continuation?.yield(event)
+    }
+
+    func startListening() {
+        Task { @MainActor in
+            for await event in stream {
+                events.append(event)
+            }
+        }
+    }
+
+    func stopListening() {
+        continuation?.finish()
+    }
+}
+```
+
+Call `startListening()` on init or `onAppear`, `stopListening()` on `onDisappear` or deinit. This replaces `PassthroughSubject<AppEvent, Never>` with its `.sink` subscriber chain.
+
 ## 5) Rollout and Rollback
 
 - Gate each migrated feature behind integration tests.

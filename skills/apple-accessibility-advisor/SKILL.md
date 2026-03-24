@@ -1,9 +1,10 @@
 ---
 name: apple-accessibility-advisor
 description: Production-grade accessibility audit and implementation advisor for Apple platform applications (iOS, iPadOS, macOS, watchOS, visionOS, tvOS).
-version: 1.3.0
-author: Saurabh Dave
 license: MIT
+metadata:
+  version: 1.4.0
+  author: Saurabh Dave
 ---
 
 # Apple Accessibility Advisor
@@ -149,6 +150,17 @@ When relevant, reference:
 - [ ] Accessibility strings are localized
 - [ ] Layout supports large text sizes
 - [ ] No truncation at accessibility text sizes
+
+---
+
+## Reference Modules
+
+Load only what is needed:
+
+- `accessibility-patterns.md`: SwiftUI, UIKit, and AppKit accessibility modifier patterns and grouping strategies.
+- `swiftui-examples.md`: Concrete SwiftUI accessibility implementation examples across platforms.
+- `testing-strategies.md`: VoiceOver testing, Accessibility Inspector usage, UI test automation, and CI integration.
+- `wcag-guidelines.md`: WCAG 2.1 AA criteria mapped to Apple platform APIs and audit checks.
 
 ---
 

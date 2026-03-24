@@ -130,3 +130,85 @@ func observe(settings: UserSettings) {
     }
 }
 ```
+
+## 7) @Published with willSet/didSet Side Effects
+
+The simple `@Published var name = ""` case migrates trivially. The hard case is when a property drives side effects:
+
+```swift
+// Before — triggers async work on every change
+class SearchViewModel: ObservableObject {
+    @Published var query: String = "" {
+        didSet { Task { await search(query) } }
+    }
+    @Published var results: [Result] = []
+}
+```
+
+`@Observable` plain stored properties don't support Combine-style side effects. Three migration options, ranked by preference:
+
+### Option 1 — Preferred: Move the reaction to the view with `task(id:)`
+
+```swift
+@Observable
+class SearchViewModel {
+    var query: String = ""
+    var results: [Result] = []
+}
+
+struct SearchView: View {
+    @State private var viewModel = SearchViewModel()
+
+    var body: some View {
+        List(viewModel.results) { ResultRow(result: $0) }
+            .searchable(text: $viewModel.query)
+            .task(id: viewModel.query) {
+                // Debounce and cancel automatically on query change
+                try? await Task.sleep(for: .milliseconds(300))
+                guard !Task.isCancelled else { return }
+                viewModel.results = await search(viewModel.query)
+            }
+    }
+}
+```
+
+### Option 2 — Non-SwiftUI observer: `withObservationTracking` loop
+
+```swift
+@Observable
+class SearchViewModel {
+    var query: String = ""
+    var results: [Result] = []
+
+    func startObserving() {
+        withObservationTracking {
+            _ = self.query   // register tracking
+        } onChange: { [weak self] in
+            guard let self else { return }
+            Task { await self.search(self.query) }
+            self.startObserving()   // re-register for next change
+        }
+    }
+}
+```
+
+### Option 3 — Last resort: Computed property with backing store
+
+Only use when the side effect genuinely belongs in the model layer (e.g., persisting to disk immediately on change).
+
+```swift
+@Observable
+class SettingsViewModel {
+    private var _fontSize: Int = 14
+
+    var fontSize: Int {
+        get { _fontSize }
+        set {
+            _fontSize = newValue
+            UserDefaults.standard.set(newValue, forKey: "fontSize")  // side effect
+        }
+    }
+}
+```
+
+> This re-introduces the boilerplate `@Observable` was designed to eliminate. Prefer Options 1 or 2.

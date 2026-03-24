@@ -1,7 +1,7 @@
 # AI Agents -- Apple Platform Engineering Skills 🚀
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Version](https://img.shields.io/badge/version-1.4.0-green.svg) ![Open
+![Version](https://img.shields.io/badge/version-1.5.0-green.svg) ![Open
 Agent
 Skills](https://img.shields.io/badge/OpenAgentSkills-compatible-purple)
 

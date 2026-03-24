@@ -1,9 +1,10 @@
 ---
 name: coredata-swiftdata-migration-advisor
 description: Production-grade migration advisor for moving Apple apps from CoreData to SwiftData. Use when planning phased migrations, mapping NSManagedObject models to @Model, replacing fetch/query/context APIs, defining VersionedSchema migration plans, or assessing whether migration should be deferred.
-version: 1.0.0
-author: Saurabh Dave
 license: MIT
+metadata:
+  version: 1.1.0
+  author: Saurabh Dave
 ---
 
 # CoreData to SwiftData Migration Advisor
