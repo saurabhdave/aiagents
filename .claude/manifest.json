@@ -25,6 +25,14 @@
       "description": "Production-grade migration advisor for ObservableObject to @Observable modernization.",
       "tags": ["observation", "observable", "observableobject", "swiftui", "migration", "combine"],
       "platforms": ["iOS", "iPadOS", "macOS"]
+    },
+    {
+      "id": "swift6-migration-advisor",
+      "version": "1.0.0",
+      "entry": "skills/swift6-migration-advisor/SKILL.md",
+      "description": "Production-grade migration advisor for Swift 5.x to Swift 6 language mode adoption.",
+      "tags": ["swift6", "concurrency", "sendable", "actor", "migration", "strict-concurrency", "typed-throws"],
+      "platforms": ["iOS", "iPadOS", "macOS", "watchOS", "visionOS", "tvOS"]
     }
   ]
 }

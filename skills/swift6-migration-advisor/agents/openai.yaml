@@ -1,0 +1,4 @@
+interface:
+  display_name: "Swift 6 Migration Advisor"
+  short_description: "Migrate Swift 5.x code to Swift 6 language mode safely."
+  default_prompt: "Help me enable Swift 6 language mode in my app target and resolve all strict concurrency errors with a phased plan."

@@ -1,6 +1,6 @@
 {
   "name": "aiagents",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "AI-driven skills for Apple platform engineering",
   "private": true,
   "repository": {
@@ -26,10 +26,16 @@
   ],
   "scripts": {
     "lint": "markdownlint '**/*.md' --ignore node_modules --config .markdownlint.json",
-    "lint:md": "markdownlint '**/*.md' --ignore node_modules --config .markdownlint.json"
+    "lint:md": "markdownlint '**/*.md' --ignore node_modules --config .markdownlint.json",
+    "eval:swift6": "tsx evals/swift6-migration-advisor.eval.ts"
   },
   "author": "Saurabh Dave",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.55.0"
+  },
   "devDependencies": {
-    "markdownlint-cli": "^0.39.0"
+    "markdownlint-cli": "^0.39.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.8.0"
   }
 }

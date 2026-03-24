@@ -1,4 +1,4 @@
-# AGENTS.md --- Agent Integration Guide (v1.5.0)
+# AGENTS.md --- Agent Integration Guide (v1.6.0)
 
 This file provides machine-optimized context for AI agents interacting
 with this repository.
@@ -17,6 +17,7 @@ Current Skills:
 - apple-accessibility-advisor (v1.4.0)
 - coredata-swiftdata-migration-advisor (v1.1.0)
 - observable-migration-advisor (v1.1.0)
+- swift6-migration-advisor (v1.0.0)
 
 Planned Domains: - Performance optimization - Architecture review -
 Concurrency modernization - CI automation guidance
@@ -50,6 +51,14 @@ Audience: Intermediate to senior Apple platform engineers.
 -   areas:
     ["observation","observable","observableobject","swiftui","migration","combine"]
 -   manifest_file: skills/observable-migration-advisor/SKILL.md
+
+-   skill_id: swift6-migration-advisor
+-   version: 1.0.0
+-   author: Saurabh Dave
+-   platforms: ["iOS","iPadOS","macOS","watchOS","visionOS","tvOS"]
+-   areas:
+    ["swift6","concurrency","sendable","actor","migration","strict-concurrency","typed-throws"]
+-   manifest_file: skills/swift6-migration-advisor/SKILL.md
 
 Agents must treat SKILL.md as the authoritative instruction set.
 
@@ -88,6 +97,18 @@ Expected structured sections:
 
 1.  Migration Readiness
 2.  Concept Mapping
+3.  Migration Strategy
+4.  Code Examples
+5.  Validation Plan
+6.  Production Considerations
+
+When invoking `swift6-migration-advisor`, agents MUST enforce the
+Output Contract defined in SKILL.md.
+
+Expected structured sections:
+
+1.  Migration Readiness
+2.  Concurrency and Language Mapping
 3.  Migration Strategy
 4.  Code Examples
 5.  Validation Plan
@@ -143,6 +164,12 @@ Observation Migration Planning: "Create a phased ObservableObject to
 Observation Migration Implementation: "Convert this ObservableObject
 view model and wrappers to @Observable safely."
 
+Swift 6 Migration Planning: "Create a phased Swift 6 language mode
+adoption plan for a modular iOS app with multiple SPM packages."
+
+Swift 6 Migration Implementation: "Enable strict concurrency on this
+target and fix all Sendable and actor isolation errors."
+
 ------------------------------------------------------------------------
 
 ## Skill Loading Strategy for Agents
@@ -161,6 +188,11 @@ view model and wrappers to @Observable safely."
       - migration-strategy.md
       - migration-checklist.md
     - For `observable-migration-advisor`:
+      - concept-mapping.md
+      - migration-patterns.md
+      - migration-strategy.md
+      - migration-checklist.md
+    - For `swift6-migration-advisor`:
       - concept-mapping.md
       - migration-patterns.md
       - migration-strategy.md

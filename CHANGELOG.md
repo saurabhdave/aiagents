@@ -6,6 +6,49 @@ This project follows Semantic Versioning (SemVer).
 
 ------------------------------------------------------------------------
 
+## [1.6.0] - 2026-03-24
+
+### Added
+
+-   New skill: `swift6-migration-advisor` (v1.0.0) — production-grade
+    advisor for adopting Swift 6 language mode with strict concurrency.
+    Covers actor isolation, Sendable conformances, global-variable
+    safety, typed throws, existential `any` enforcement, noncopyable
+    types, and `@preconcurrency` bridging. Reference modules:
+    -   `concept-mapping.md` — Swift 5.x → 6 language and concurrency
+        API mapping tables.
+    -   `migration-patterns.md` — 12 before/after code examples
+        (actor isolation, Sendable, global state, typed throws,
+        `~Copyable`, UIKit delegates, and more).
+    -   `migration-strategy.md` — phased `minimal → targeted →
+        complete → Swift 6` enablement plan with module ordering,
+        `@preconcurrency` bridge patterns, and rollback strategy.
+    -   `migration-checklist.md` — pre-migration assessment,
+        per-phase gates, release checklist, common mistakes, and
+        do-not-migrate criteria.
+    -   `agents/openai.yaml` — OpenAI display metadata.
+-   Eval infrastructure for `swift6-migration-advisor`:
+    -   `evals/swift6-migration-advisor.eval.ts` — TypeScript eval
+        script using Claude-as-judge with adaptive thinking; scores
+        completeness, accuracy, code quality, actionability, and
+        contract adherence across 5 test cases.
+    -   `tsconfig.json` — TypeScript configuration for the evals
+        directory.
+-   `@anthropic-ai/sdk`, `tsx`, and `typescript` added to
+    `package.json` to support the eval script
+    (`npm run eval:swift6`).
+-   `evals/reports/` added to `.gitignore`.
+
+### Changed
+
+-   `AGENTS.md` header bumped to `v1.6.0`; `swift6-migration-advisor`
+    added to skill registry, invocation contract, skill loading
+    strategy, and invocation examples.
+-   `.claude/manifest.json` updated with new skill entry.
+-   `package.json` version bumped to `1.6.0`.
+
+------------------------------------------------------------------------
+
 ## [1.5.0] - 2026-03-24
 
 ### Added
