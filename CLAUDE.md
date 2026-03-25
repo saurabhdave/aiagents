@@ -50,7 +50,7 @@ On release tags (`v*.*.*`), two additional workflows fire:
 
 ## Architecture
 
-```
+```text
 skills/
   <skill-id>/
     SKILL.md                  # Defines output contract agents MUST follow

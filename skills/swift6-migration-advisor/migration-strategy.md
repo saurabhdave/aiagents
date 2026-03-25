@@ -53,7 +53,7 @@ Exit criteria: All targets compile with `SWIFT_VERSION = 6` and pass full test s
 
 For modular apps (SPM packages or Xcode frameworks), migrate in dependency order — leaves first, entry point last.
 
-```
+```text
 [Networking] → [Domain] → [Feature A] → [App Target]
      ↑               ↑
  migrate first   migrate second
@@ -100,7 +100,7 @@ Track all `@preconcurrency` usages in a migration backlog. Each one is a debt it
 
 ## Global State Migration Decision Tree
 
-```
+```text
 Is the global variable immutable (let)?
   YES → No change needed. Already safe.
   NO  →
