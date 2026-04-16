@@ -150,6 +150,7 @@ Pick one skill ID:
 - `coredata-swiftdata-migration-advisor`
 - `observable-migration-advisor`
 - `swift6-migration-advisor`
+- `ios26-migration-advisor`
 
 ### Option A - skills.sh CLI (Recommended)
 
