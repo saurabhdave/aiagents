@@ -1,7 +1,7 @@
 # AI Agents -- Apple Platform Engineering Skills 🚀
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Version](https://img.shields.io/badge/version-1.6.0-green.svg) ![Open
+![Version](https://img.shields.io/badge/version-1.7.0-green.svg) ![Open
 Agent
 Skills](https://img.shields.io/badge/OpenAgentSkills-compatible-purple)
 
@@ -89,7 +89,15 @@ supporting the Agent Skills format.
     │   │   ├── migration-checklist.md
     │   │   └── agents/
     │   │       └── openai.yaml
-    │   └── swift6-migration-advisor/
+    │   ├── swift6-migration-advisor/
+    │   │   ├── SKILL.md
+    │   │   ├── concept-mapping.md
+    │   │   ├── migration-patterns.md
+    │   │   ├── migration-strategy.md
+    │   │   ├── migration-checklist.md
+    │   │   └── agents/
+    │   │       └── openai.yaml
+    │   └── ios26-migration-advisor/
     │       ├── SKILL.md
     │       ├── concept-mapping.md
     │       ├── migration-patterns.md
@@ -114,6 +122,7 @@ supporting the Agent Skills format.
 | `coredata-swiftdata-migration-advisor` | Production-grade migration advisor for planning and executing CoreData to SwiftData transitions in production apps. |
 | `observable-migration-advisor` | Production-grade migration advisor for converting ObservableObject code to `@Observable` in production SwiftUI apps. |
 | `swift6-migration-advisor` | Production-grade migration advisor for adopting Swift 6 language mode: strict concurrency, actor isolation, Sendable conformances, typed throws, and phased module-by-module rollout. |
+| `ios26-migration-advisor` | Production-grade migration advisor for adopting iOS 26+ patterns: Liquid Glass design system, floating TabView, navigation redesign, and SwiftUI/UIKit API updates for iOS and iPadOS. |
 
 --------------------------------------------------------------------------------------
 
@@ -162,6 +171,10 @@ npx skills add saurabhdave/aiagents --skill observable-migration-advisor
 npx skills add saurabhdave/aiagents --skill swift6-migration-advisor
 ```
 
+```bash
+npx skills add saurabhdave/aiagents --skill ios26-migration-advisor
+```
+
 Learn more: https://skills.sh
 
 ------------------------------------------------------------------------
@@ -176,6 +189,7 @@ Personal setup:
 /plugin install coredata-swiftdata-migration-advisor@aiagents
 /plugin install observable-migration-advisor@aiagents
 /plugin install swift6-migration-advisor@aiagents
+/plugin install ios26-migration-advisor@aiagents
 ```
 
 Team setup (`.claude/settings.json`):
@@ -186,7 +200,8 @@ Team setup (`.claude/settings.json`):
     "apple-accessibility-advisor@aiagents": true,
     "coredata-swiftdata-migration-advisor@aiagents": true,
     "observable-migration-advisor@aiagents": true,
-    "swift6-migration-advisor@aiagents": true
+    "swift6-migration-advisor@aiagents": true,
+    "ios26-migration-advisor@aiagents": true
   },
   "extraKnownMarketplaces": {
     "aiagents": {
@@ -216,6 +231,7 @@ git clone https://github.com/saurabhdave/aiagents.git
    - `skills/coredata-swiftdata-migration-advisor/`
    - `skills/observable-migration-advisor/`
    - `skills/swift6-migration-advisor/`
+   - `skills/ios26-migration-advisor/`
 3. Restart or reload your agent.
 
 Supported tools include Claude Code, Cursor, Windsurf, and other
