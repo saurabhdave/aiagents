@@ -22,3 +22,6 @@ package-lock.json
 # Eval reports (generated artifacts)
 evals/reports/
 dist/
+
+# Git worktrees
+.worktrees/
