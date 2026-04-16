@@ -23,6 +23,13 @@
       "skills": [
         "./skills/observable-migration-advisor"
       ]
+    },
+    {
+      "name": "ios26-migration-advisor",
+      "source": "skills/ios26-migration-advisor",
+      "skills": [
+        "./skills/ios26-migration-advisor"
+      ]
     }
   ]
 }
