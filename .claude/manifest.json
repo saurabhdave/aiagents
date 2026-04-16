@@ -33,6 +33,14 @@
       "description": "Production-grade migration advisor for Swift 5.x to Swift 6 language mode adoption.",
       "tags": ["swift6", "concurrency", "sendable", "actor", "migration", "strict-concurrency", "typed-throws"],
       "platforms": ["iOS", "iPadOS", "macOS", "watchOS", "visionOS", "tvOS"]
+    },
+    {
+      "id": "ios26-migration-advisor",
+      "version": "1.0.0",
+      "entry": "skills/ios26-migration-advisor/SKILL.md",
+      "description": "Production-grade migration advisor for adopting iOS 26+ patterns: Liquid Glass design system, floating TabView, navigation redesign, and SwiftUI/UIKit API updates.",
+      "tags": ["ios26", "liquid-glass", "tabview", "navigation", "swiftui", "uikit", "migration", "glass-effect"],
+      "platforms": ["iOS", "iPadOS"]
     }
   ]
 }
