@@ -1,4 +1,4 @@
-# AGENTS.md --- Agent Integration Guide (v1.6.0)
+# AGENTS.md --- Agent Integration Guide (v1.7.0)
 
 This file provides machine-optimized context for AI agents interacting
 with this repository.
@@ -18,6 +18,7 @@ Current Skills:
 - coredata-swiftdata-migration-advisor (v1.1.0)
 - observable-migration-advisor (v1.1.0)
 - swift6-migration-advisor (v1.0.0)
+- ios26-migration-advisor (v1.0.0)
 
 Planned Domains: - Performance optimization - Architecture review -
 Concurrency modernization - CI automation guidance
@@ -59,6 +60,14 @@ Audience: Intermediate to senior Apple platform engineers.
 -   areas:
     ["swift6","concurrency","sendable","actor","migration","strict-concurrency","typed-throws"]
 -   manifest_file: skills/swift6-migration-advisor/SKILL.md
+
+-   skill_id: ios26-migration-advisor
+-   version: 1.0.0
+-   author: Saurabh Dave
+-   platforms: ["iOS","iPadOS"]
+-   areas:
+    ["ios26","liquid-glass","tabview","navigation","swiftui","uikit","migration","glass-effect"]
+-   manifest_file: skills/ios26-migration-advisor/SKILL.md
 
 Agents must treat SKILL.md as the authoritative instruction set.
 
@@ -109,6 +118,18 @@ Expected structured sections:
 
 1.  Migration Readiness
 2.  Concurrency and Language Mapping
+3.  Migration Strategy
+4.  Code Examples
+5.  Validation Plan
+6.  Production Considerations
+
+When invoking `ios26-migration-advisor`, agents MUST enforce the
+Output Contract defined in SKILL.md.
+
+Expected structured sections:
+
+1.  Migration Readiness
+2.  Concept & API Mapping
 3.  Migration Strategy
 4.  Code Examples
 5.  Validation Plan
@@ -170,6 +191,12 @@ adoption plan for a modular iOS app with multiple SPM packages."
 Swift 6 Migration Implementation: "Enable strict concurrency on this
 target and fix all Sendable and actor isolation errors."
 
+iOS 26 Migration Planning: "Create a phased iOS 26 migration plan for a production app
+targeting iOS 17+ covering Liquid Glass adoption and TabView redesign."
+
+iOS 26 Migration Implementation: "Migrate my TabView from tabItem to the new Tab type
+and add the Liquid Glass design system to my card components."
+
 ------------------------------------------------------------------------
 
 ## Skill Loading Strategy for Agents
@@ -193,6 +220,11 @@ target and fix all Sendable and actor isolation errors."
       - migration-strategy.md
       - migration-checklist.md
     - For `swift6-migration-advisor`:
+      - concept-mapping.md
+      - migration-patterns.md
+      - migration-strategy.md
+      - migration-checklist.md
+    - For `ios26-migration-advisor`:
       - concept-mapping.md
       - migration-patterns.md
       - migration-strategy.md
