@@ -6,6 +6,36 @@ This project follows Semantic Versioning (SemVer).
 
 ------------------------------------------------------------------------
 
+## [1.7.0] - 2026-04-16
+
+### Added
+
+-   New skill: `ios26-migration-advisor` (v1.0.0) — production-grade advisor for
+    adopting iOS 26+ patterns in existing apps. Covers Liquid Glass design system
+    (`.glassEffect()`, `GlassEffectContainer`, `UIGlassEffect`), floating TabView
+    redesign (new `Tab` type, `TabSection`), navigation API updates (`NavigationView`
+    removal), toolbar glass behavior, and dual-target `#available` bridge patterns for
+    apps supporting iOS 17-26. Reference modules:
+    -   `concept-mapping.md` — pre-iOS-26 to iOS 26 API mapping tables for materials,
+        TabView, navigation, and UIKit glass.
+    -   `migration-patterns.md` — 5 before/after code examples: card glass, floating
+        TabView, dual-target wrapper, UIKit toolbar glass, and `NavigationView` removal.
+    -   `migration-strategy.md` — three-phase adoption plan (audit + wrap, adopt, clean
+        up), decision matrix for subclass/wrapper/replacement, and coexistence guidance.
+    -   `migration-checklist.md` — pre-migration audit, phase gates, release gate, and
+        common mistakes with corrections.
+    -   `agents/openai.yaml` — OpenAI display metadata.
+
+### Changed
+
+-   `AGENTS.md` header bumped to `v1.7.0`; `ios26-migration-advisor` added to skill
+    registry, invocation contract, skill loading strategy, and invocation examples.
+-   `.claude/manifest.json` updated with new skill entry.
+-   `.claude-plugin/manifest.json` updated with new skill entry.
+-   `package.json` version bumped to `1.7.0`.
+
+------------------------------------------------------------------------
+
 ## [1.6.0] - 2026-03-24
 
 ### Added
