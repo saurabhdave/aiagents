@@ -1,0 +1,4 @@
+interface:
+  display_name: "iOS 26 Migration Advisor"
+  short_description: "Migrate existing apps to iOS 26+ with Liquid Glass, floating TabView, and updated SwiftUI/UIKit APIs."
+  default_prompt: "Help me migrate my existing iOS app to adopt the iOS 26 Liquid Glass design system and new navigation patterns with a phased plan."
